@@ -1,5 +1,7 @@
 package com.cos.blog.test;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 // 사용자가 요청 -> 응답(Data)
 @RestController
 public class HttpControllerTest {
+
+	private static final Logger log = LoggerFactory.getLogger(HttpControllerTest.class);
+	
+	// http://localhost:8000/blog/http/lombok
+	@GetMapping("/http/lombok")
+	public String lombokTest() {
+		Member m = Member.builder().username("ssar").password("1234").email("ssar@nate.com").build();
+		log.info("getter : " + m.getUsername());
+		m.setUsername("cos");
+		log.info("setter : " + m.getUsername());
+		return "lombok 테스트 완료";
+	}
 
 	// 인터넷 브라우저는 무조건 get 요청
 	// http://localhost:8080/http/get (select)
