@@ -32,7 +32,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.
 	private int id; // 시퀀스, MySQL: auto_increment
 	
-	@Column(nullable = false, length = 30)
+	@Column(nullable = false, length = 30, unique = true)
 	private String username; // 아이디
 	
 	@Column(nullable = false, length = 100) // 해쉬를 이용해 비밀번호 암호화를 하려면 길이를 길게 설정해야 한다.
