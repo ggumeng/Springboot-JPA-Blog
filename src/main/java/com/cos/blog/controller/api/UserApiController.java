@@ -1,5 +1,7 @@
 package com.cos.blog.controller.api;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private HttpSession session;
 
 	@PostMapping("/api/user")
 	public ResponseDto<Integer> save(@RequestBody User user) {
@@ -30,4 +35,18 @@ public class UserApiController {
 		userService.joinMember(user);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
 	}
+	
+	// 스프링 시큐리티를 이용해서 로그인
+	@PostMapping("/api/user/login")
+	public ResponseDto<Integer> login(@RequestBody User user){
+		log.info("login 호출됨");
+		User principal = userService.loginMember(user); // principal (접근주체)
+		
+		if (principal != null) {
+			session.setAttribute("principal", principal);
+		}
+		
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
 }
+   
