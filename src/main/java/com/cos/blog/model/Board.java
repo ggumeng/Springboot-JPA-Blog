@@ -20,12 +20,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor ;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor 
+@AllArgsConstructor
 @Builder
 public class Board {
 
@@ -36,16 +36,15 @@ public class Board {
 	@Column(nullable = false, length = 100)
 	private String title;
 
-	@Lob // 대용량 데이터 
+	@Lob // 대용량 데이터
 	private String content; // 섬머노트 라이브러리 사용 예정 => <html> 태그가 섞여서 디자인 됨.
-
-	@ColumnDefault("0")
-	private int count;
 	
+	private int count;
+
 	@ManyToOne(fetch = FetchType.EAGER) // 연관관계 (Many = Board, One = User)
 	@JoinColumn(name = "userId")
 	private User user; // DB는 오브젝트를 저장할 수 없음.
-	
+
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // mappedBy 연관관계의 주인이 아니다 (FK가 아님) -> DB에 컬럼을 생성하지 않게 하는 것
 	private List<Reply> reply;
 
