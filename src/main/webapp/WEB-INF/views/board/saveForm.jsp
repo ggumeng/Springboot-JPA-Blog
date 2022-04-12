@@ -4,7 +4,7 @@
 <div class="container">
 	<form>
 		<div class="form-group">
-			<input type="text" class="form-control" placeholder="Enter username" id="title">
+			<input type="text" class="form-control" placeholder="Enter Title" id="title">
 		</div>
 		<div class="form-group">
 			<textarea class="form-control summernote" rows="5" id="content"></textarea>
