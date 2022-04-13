@@ -46,6 +46,8 @@ public class User {
 	// @ColumnDefault("'user'")
 	private RoleType role; // Enum 쓰는 것이 좋다. (권한 => admin, user, manager)
 	
+	private String oauth; // kakao, google ...
+	
 	@CreationTimestamp // 시간이 자동 입력
 	private Timestamp createDate;
 }
