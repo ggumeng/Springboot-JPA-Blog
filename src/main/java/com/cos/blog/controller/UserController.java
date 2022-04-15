@@ -1,6 +1,11 @@
 package com.cos.blog.controller;
 
-import java.util.UUID;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +18,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.cos.blog.model.KakaoProfile;
@@ -80,7 +85,7 @@ public class UserController {
 
 		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
 		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
-
+		
 		// Http 요청하기 - post 방식, response 받음
 		ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
 				kakaoTokenRequest, String.class);
@@ -140,5 +145,49 @@ public class UserController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return "redirect:/";
+	}
+	
+	@GetMapping("/tax")
+	public String taxPage(Model model) throws IOException {
+		
+		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\ISHIFT\\Documents\\카카오톡 받은 파일\\1-99.txt"));
+		
+		List<String> noList = new ArrayList<>();
+		String str;
+		
+		while ((str=br.readLine()) != null) {
+			noList.add(str);
+		}
+		
+		System.out.println(noList);
+		
+//		RestTemplate restTemplate = new RestTemplate();
+//
+//		// HttpHeader 오브젝트 생성
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("Content-type", "application/json");
+
+		// HttpBody 오브젝트 생성
+		/*
+		 * ObjectMapper objectMapper = new ObjectMapper(); objectMapper.
+		 * params.add("serviceKey",
+		 * "sBC5Y6wUFBw5ipm9767%2F1Cem0Z22wOJwyRNuDzCcaErWb9XjI%2BRL2mSHLZgbaUOnjM9vx%2B%2F4Mua9ZJWPyxxZAw%3D%3D"
+		 * ); params.add("b_no", noList);
+		 */
+
+		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+//		HttpEntity<MultiValueMap<String, Object>> taxRequest = new HttpEntity<>(headers);
+//		
+//		// Http 요청하기 - post 방식, response 받음
+//		ResponseEntity<String> response = 
+//				restTemplate.exchange("https://api.odcloud.kr/api/nts-businessman/v1/status", 
+//						HttpMethod.POST,
+//						taxRequest, 
+//						String.class);
+//		
+//		System.out.println(response.getBody());
+		
+		model.addAttribute("nos", noList);
+		return "hometax/tax";
 	}
 }
